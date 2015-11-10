@@ -4,7 +4,7 @@ module DefineRails
 
     module ClassMethods
 
-      def supports_multi_language(options = {})
+      def use_definerails_i18n(options = {})
         options = {
           setup_default_url_options: true,
           setup_locale_on_before_action: true,
@@ -30,7 +30,7 @@ module DefineRails
         end
 
         if options[:setup_locale_on_before_action]
-          before_action :define_rails__set_locale
+          before_action :definerails__set_locale
         end
 
         include DefineRails::Internationalization::Methods
@@ -53,8 +53,8 @@ module DefineRails
     module Methods
       extend ActiveSupport::Concern
 
-      def define_rails__set_locale
-        new_locale = define_rails__get_user_locale || I18n.default_locale
+      def definerails__set_locale
+        new_locale = definerails__get_user_locale || I18n.default_locale
 
         I18n.locale = new_locale
 
@@ -68,7 +68,7 @@ module DefineRails
         end
       end
 
-      def define_rails__get_user_locale
+      def definerails__get_user_locale
         available_langs = I18n.available_locales
 
         lang_cookie_name = self.ui_language_cookie_name
