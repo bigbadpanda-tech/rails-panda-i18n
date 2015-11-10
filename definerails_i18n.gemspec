@@ -5,8 +5,8 @@ require "definerails_i18n/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "DefineRails::i18n"
-  s.version     = DefineRails::I18n::VERSION
+  s.name        = "definerails_i18n"
+  s.version     = DefineRails::Internationalization::VERSION
   s.authors     = ["DefineScope"]
   s.email       = ["info@definescope.com"]
   s.homepage    = "http://www.definescope.com"

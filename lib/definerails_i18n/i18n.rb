@@ -1,5 +1,5 @@
 module DefineRails
-  module I18n
+  module Internationalization
     extend ActiveSupport::Concern
 
     module ClassMethods
@@ -7,6 +7,7 @@ module DefineRails
       def supports_multi_language(options = {})
         options = {
           setup_default_url_options: true,
+          setup_locale_on_before_action: true,
           enable_cookie_support: true,
           cookie_name: :hl,
           enable_param_support: true,
@@ -23,14 +24,16 @@ module DefineRails
           self.ui_language_param_name = options[:param_name].to_sym
 
           if options[:setup_default_url_options]
-            include DefineRails::I18n::Method_DefaultUrlOptions
+            include DefineRails::Internationalization::Method_DefaultUrlOptions
           end
 
         end
 
-        before_action :define_rails__set_locale
+        if options[:setup_locale_on_before_action]
+          before_action :define_rails__set_locale
+        end
 
-        include DefineRails::I18n::Methods
+        include DefineRails::Internationalization::Methods
       end
 
     end
@@ -88,4 +91,4 @@ module DefineRails
   end
 end
 
-ActionController::Base.send :include, DefineRails::I18n
+ActionController::Base.send :include, DefineRails::Internationalization

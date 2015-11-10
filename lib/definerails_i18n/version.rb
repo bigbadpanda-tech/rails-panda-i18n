@@ -1,5 +1,5 @@
 module DefineRails
-  module I18n
+  module Internationalization
     VERSION = "1.0.0"
   end
 end
