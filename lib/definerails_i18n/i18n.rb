@@ -7,6 +7,8 @@ module DefineRails
       def use_definerails_i18n(options = {})
         options = {
           setup_default_url_options: true,
+          setup_class_default_url_options: true,
+          setup_instance_default_url_options: true,
           setup_locale_on_before_action: true,
           enable_cookie_support: true,
           cookie_name: :hl,
@@ -15,16 +17,24 @@ module DefineRails
         }.merge(options)
 
         if options[:enable_cookie_support]
-          cattr_accessor :ui_language_cookie_name
+          mattr_accessor :ui_language_cookie_name
           self.ui_language_cookie_name = options[:cookie_name].to_sym
         end
 
         if options[:enable_param_support]
-          cattr_accessor :ui_language_param_name
+          mattr_accessor :ui_language_param_name
           self.ui_language_param_name = options[:param_name].to_sym
 
-          if options[:setup_default_url_options]
-            include DefineRails::Internationalization::Method_DefaultUrlOptions
+          if options[:setup_default_url_options] and
+             options[:setup_class_default_url_options]
+            include DefineRails::Internationalization::\
+              Method_Class_DefaultUrlOptions
+          end
+
+          if options[:setup_default_url_options] and
+             options[:setup_instance_default_url_options]
+            include DefineRails::Internationalization::\
+              Method_Instance_DefaultUrlOptions
           end
 
         end
@@ -38,20 +48,42 @@ module DefineRails
 
     end
 
-    module Method_DefaultUrlOptions
+    module Method_Class_DefaultUrlOptions
       extend ActiveSupport::Concern
 
       module ClassMethods
 
         def default_url_options(options={})
-          options.merge(self.ui_language_param_name => I18n.locale)
+          self.definerails__add_ui_language_to options
         end
 
       end
+
+    end
+
+    module Method_Instance_DefaultUrlOptions
+      extend ActiveSupport::Concern
+
+      def default_url_options(options={})
+        definerails__add_ui_language_to options
+      end
+
     end
 
     module Methods
       extend ActiveSupport::Concern
+
+      module ClassMethods
+
+        def definerails__add_ui_language_to(options={})
+          options.merge(self.ui_language_param_name => I18n.locale)
+        end
+
+      end
+
+      def definerails__add_ui_language_to(options={})
+        options.merge(self.ui_language_param_name => I18n.locale)
+      end
 
       def definerails__set_locale
         new_locale = definerails__get_user_locale || I18n.default_locale
