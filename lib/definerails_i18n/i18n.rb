@@ -2,6 +2,8 @@ module DefineRails
   module Internationalization
     extend ActiveSupport::Concern
 
+    require 'http_accept_language'
+
     module ClassMethods
 
       def use_definerails_i18n(options = {})
