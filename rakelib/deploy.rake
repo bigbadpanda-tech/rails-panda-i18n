@@ -31,6 +31,8 @@ def copy_to_dir(target_dir, additional_excludes=[])
     '.bundle/',
     'log/*',
     '!log/.keep',
+    'tmp/*',
+    '!tmp/.keep',
     'pkg/',
   ].each do |line|
     output = %x[echo "#{line}" >> "#{@target_gitignore_file}"]
