@@ -16,5 +16,4 @@ test/dummy/.sass-cache
 # Ignore other unneeded files.
 doc/
 .DS_Store
-.settings/
 Gemfile.lock
