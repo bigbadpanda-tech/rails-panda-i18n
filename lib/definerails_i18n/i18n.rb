@@ -125,4 +125,6 @@ module DefineRails
   end
 end
 
-ActionController::Base.send :include, DefineRails::Internationalization
+ActiveSupport.on_load :action_controller do
+  ActionController::Base.send :include, DefineRails::Internationalization
+end
