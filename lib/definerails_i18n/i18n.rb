@@ -2,7 +2,7 @@ module DefineRails
   module Internationalization
     extend ActiveSupport::Concern
 
-    require 'http_accept_language'
+    require "http_accept_language"
 
     module ClassMethods
 
