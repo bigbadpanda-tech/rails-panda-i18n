@@ -1,8 +1,10 @@
-$:.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path('lib', __dir__)
 
 require "definerails_i18n/version"
 
 Gem::Specification.new do |s|
+  s.required_ruby_version = '>= 3.2'
+
   s.name        = "definerails_i18n"
   s.version     = DefineRails::Internationalization::VERSION
   s.authors     = ["DefineScope"]
@@ -19,4 +21,6 @@ Gem::Specification.new do |s|
 
   # Get the HTTP ACCEPT-LANGUAGE header
   s.add_dependency "http_accept_language"
+
+  s.metadata["rubygems_mfa_required"] = "true"
 end

@@ -1,0 +1,11 @@
+{
+  "name": "definerails_i18n",
+  "productName": "DefineRails - I18n",
+  "version": "1.0.2",
+  "author": "DefineScope",
+  "license": "MIT",
+  "devDependencies": {
+    "@prettier/plugin-ruby": "^4.0.2",
+    "prettier": "^3.0.3"
+  }
+}

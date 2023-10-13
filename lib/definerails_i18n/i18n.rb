@@ -27,43 +27,39 @@ module DefineRails
           mattr_accessor :ui_language_param_name
           self.ui_language_param_name = options[:param_name].to_sym
 
-          if options[:setup_default_url_options] and
+          if options[:setup_default_url_options] &&
              options[:setup_class_default_url_options]
-            include DefineRails::Internationalization::\
-              Method_Class_DefaultUrlOptions
+            include DefineRails::Internationalization::MethodClassDefaultUrlOptions
           end
 
-          if options[:setup_default_url_options] and
+          if options[:setup_default_url_options] &&
              options[:setup_instance_default_url_options]
-            include DefineRails::Internationalization::\
-              Method_Instance_DefaultUrlOptions
+            include DefineRails::Internationalization::MethodInstanceDefaultUrlOptions
           end
 
         end
 
-        if options[:setup_locale_on_before_action]
-          before_action :definerails__set_locale
-        end
+        before_action :definerails__set_locale if options[:setup_locale_on_before_action]
 
         include DefineRails::Internationalization::Methods
       end
 
     end
 
-    module Method_Class_DefaultUrlOptions
+    module MethodClassDefaultUrlOptions
       extend ActiveSupport::Concern
 
       module ClassMethods
 
         def default_url_options(options={})
-          self.definerails__add_ui_language_to options
+          definerails__add_ui_language_to options
         end
 
       end
 
     end
 
-    module Method_Instance_DefaultUrlOptions
+    module MethodInstanceDefaultUrlOptions
       extend ActiveSupport::Concern
 
       def default_url_options(options={})
@@ -78,13 +74,13 @@ module DefineRails
       module ClassMethods
 
         def definerails__add_ui_language_to(options={})
-          options.merge(self.ui_language_param_name => I18n.locale)
+          options.merge(ui_language_param_name => I18n.locale)
         end
 
       end
 
       def definerails__add_ui_language_to(options={})
-        options.merge(self.ui_language_param_name => I18n.locale)
+        options.merge(ui_language_param_name => I18n.locale)
       end
 
       def definerails__set_locale
@@ -92,28 +88,28 @@ module DefineRails
 
         I18n.locale = new_locale
 
-        lang_cookie_name = self.ui_language_cookie_name
-        if lang_cookie_name
-          cookie_lang = cookies[lang_cookie_name]
-          cookies[lang_cookie_name] = {
-            value: new_locale,
-            expires: 1.year.from_now
-          } if cookie_lang != new_locale
-        end
+        lang_cookie_name = ui_language_cookie_name
+        return unless lang_cookie_name
+
+        cookie_lang = cookies[lang_cookie_name]
+        cookies[lang_cookie_name] = {
+          value: new_locale,
+          expires: 1.year.from_now
+        } if cookie_lang != new_locale
       end
 
       def definerails__get_user_locale
         available_langs = I18n.available_locales
 
-        lang_cookie_name = self.ui_language_cookie_name
-        lang_param_name = self.ui_language_param_name
+        lang_cookie_name = ui_language_cookie_name
+        lang_param_name = ui_language_param_name
 
         params_lang = params[lang_param_name] if lang_param_name
         cookie_lang = cookies[lang_cookie_name] if lang_cookie_name
 
-        if params_lang and available_langs.include?(params_lang.to_sym)
+        if params_lang && available_langs.include?(params_lang.to_sym)
           params_lang
-        elsif cookie_lang and available_langs.include?(cookie_lang.to_sym)
+        elsif cookie_lang && available_langs.include?(cookie_lang.to_sym)
           cookie_lang
         else
           http_accept_language.compatible_language_from available_langs
@@ -125,6 +121,4 @@ module DefineRails
   end
 end
 
-ActiveSupport.on_load :action_controller do
-  ActionController::Base.send :include, DefineRails::Internationalization
-end
+ActiveSupport.on_load(:action_controller) { include DefineRails::Internationalization }
