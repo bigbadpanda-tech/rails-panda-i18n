@@ -3,14 +3,14 @@ require "fileutils"
 
 
 desc "Copy the necessary files to a deployment directory"
-task :deploy, [:dir] do |_, args|
+task :deploy, [ :dir ] do |_, args|
   args.with_defaults dir: "#{Rake.application.original_dir}_Deploy"
   copy_to_dir args.dir, []
 end
 
 #############################################################################
 
-def copy_to_dir(target_dir, additional_excludes=[])
+def copy_to_dir(target_dir, additional_excludes = [])
   ##############################
   # Setup the target director
 
@@ -65,7 +65,7 @@ def copy_to_dir(target_dir, additional_excludes=[])
     "log/*",
     "!log/.keep",
     "tmp/*",
-    "!tmp/.keep",
+    "!tmp/.keep"
   ].each do |line|
     output = `echo "#{line}" >> "#{target_gitignore_file}"`
     raise output unless output.empty?

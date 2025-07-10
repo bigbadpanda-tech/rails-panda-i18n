@@ -5,7 +5,6 @@ module DefineRails
     require "http_accept_language"
 
     module ClassMethods
-
       def use_definerails_i18n(options = {})
         options = {
           setup_default_url_options: true,
@@ -21,6 +20,8 @@ module DefineRails
         if options[:enable_cookie_support]
           mattr_accessor :ui_language_cookie_name
           self.ui_language_cookie_name = options[:cookie_name].to_sym
+        else
+          mattr_reader :ui_language_cookie_name
         end
 
         if options[:enable_param_support]
@@ -37,50 +38,45 @@ module DefineRails
             include DefineRails::Internationalization::MethodInstanceDefaultUrlOptions
           end
 
+        else
+          mattr_reader :ui_language_param_name
         end
 
         before_action :definerails__set_locale if options[:setup_locale_on_before_action]
 
         include DefineRails::Internationalization::Methods
       end
-
     end
 
     module MethodClassDefaultUrlOptions
       extend ActiveSupport::Concern
 
       module ClassMethods
-
-        def default_url_options(options={})
+        def default_url_options(options = {})
           definerails__add_ui_language_to options
         end
-
       end
-
     end
 
     module MethodInstanceDefaultUrlOptions
       extend ActiveSupport::Concern
 
-      def default_url_options(options={})
+      def default_url_options(options = {})
         definerails__add_ui_language_to options
       end
-
     end
 
     module Methods
       extend ActiveSupport::Concern
 
       module ClassMethods
-
-        def definerails__add_ui_language_to(options={})
-          options.merge(ui_language_param_name => I18n.locale)
+        def definerails__add_ui_language_to(options = {})
+          options.merge(ui_language_param_name => I18n.locale) unless ui_language_param_name.nil?
         end
-
       end
 
-      def definerails__add_ui_language_to(options={})
-        options.merge(ui_language_param_name => I18n.locale)
+      def definerails__add_ui_language_to(options = {})
+        options.merge(ui_language_param_name => I18n.locale) unless ui_language_param_name.nil?
       end
 
       def definerails__set_locale
@@ -88,8 +84,8 @@ module DefineRails
 
         I18n.locale = new_locale
 
-        lang_cookie_name = ui_language_cookie_name
-        return unless lang_cookie_name
+        return if ui_language_cookie_name.nil? ||
+                  lang_cookie_name != ui_language_cookie_name
 
         cookie_lang = cookies[lang_cookie_name]
         cookies[lang_cookie_name] = {
@@ -101,23 +97,18 @@ module DefineRails
       def definerails__get_user_locale
         available_langs = I18n.available_locales
 
-        lang_cookie_name = ui_language_cookie_name
-        lang_param_name = ui_language_param_name
+        cookie_lang = cookies[ui_language_cookie_name] unless ui_language_cookie_name.nil?
+        params_lang = params[ui_language_param_name] unless ui_language_param_name.nil?
 
-        params_lang = params[lang_param_name] if lang_param_name
-        cookie_lang = cookies[lang_cookie_name] if lang_cookie_name
-
-        if params_lang && available_langs.include?(params_lang.to_sym)
+        if params_lang.present? && available_langs.include?(params_lang.to_sym)
           params_lang
-        elsif cookie_lang && available_langs.include?(cookie_lang.to_sym)
+        elsif cookie_lang.present? && available_langs.include?(cookie_lang.to_sym)
           cookie_lang
         else
           http_accept_language.compatible_language_from available_langs
         end
       end
-
     end
-
   end
 end
 

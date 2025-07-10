@@ -1,26 +1,29 @@
-inherit_from:
-  - node_modules/@prettier/plugin-ruby/rubocop.yml
-
-require:
-  - rubocop-rails
+# Omakase Ruby styling for Rails
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
 
 AllCops:
-  Exclude:
-    - 'node_modules/**/*'
+  # Exclude:
+  #   - 'bin/*'
+  #   - 'db/schema.rb'
+  #   - 'spec/**/*'
   NewCops: enable
 
-Metrics/AbcSize:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/MethodLength:
+Bundler/OrderedGems:
   Enabled: false
 
-Style/Documentation:
-  Enabled: false
-Style/FrozenStringLiteralComment:
-  Enabled: false
+# Metrics/AbcSize:
+#   Enabled: false
+# Metrics/CyclomaticComplexity:
+#   Enabled: false
+# Metrics/MethodLength:
+#   Enabled: false
 
-Rails/RakeEnvironment:
-  Exclude:
-    - 'rakelib/rakefile.rake'
+# Style/Documentation:
+#   Enabled: false
+# Style/FrozenStringLiteralComment:
+#   Enabled: false
+
+# Rails/RakeEnvironment:
+#   Exclude:
+#     - 'rakelib/rakefile.rake'
