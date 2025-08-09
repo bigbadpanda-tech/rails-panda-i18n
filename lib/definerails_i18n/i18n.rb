@@ -84,14 +84,10 @@ module DefineRails
 
         I18n.locale = new_locale
 
-        return if ui_language_cookie_name.nil? ||
-                  lang_cookie_name != ui_language_cookie_name
-
-        cookie_lang = cookies[lang_cookie_name]
-        cookies[lang_cookie_name] = {
+        cookies[ui_language_cookie_name] = {
           value: new_locale,
           expires: 1.year.from_now
-        } if cookie_lang != new_locale
+        } unless ui_language_cookie_name.nil?
       end
 
       def definerails__get_user_locale
