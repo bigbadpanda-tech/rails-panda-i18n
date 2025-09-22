@@ -29,12 +29,12 @@ module DefineRails
           self.ui_language_param_name = options[:param_name].to_sym
 
           if options[:setup_default_url_options] &&
-             options[:setup_class_default_url_options]
+              options[:setup_class_default_url_options]
             include DefineRails::Internationalization::MethodClassDefaultUrlOptions
           end
 
           if options[:setup_default_url_options] &&
-             options[:setup_instance_default_url_options]
+              options[:setup_instance_default_url_options]
             include DefineRails::Internationalization::MethodInstanceDefaultUrlOptions
           end
 
@@ -84,10 +84,12 @@ module DefineRails
 
         I18n.locale = new_locale
 
-        cookies[ui_language_cookie_name] = {
-          value: new_locale,
-          expires: 1.year.from_now
-        } unless ui_language_cookie_name.nil?
+        unless ui_language_cookie_name.nil?
+          cookies[ui_language_cookie_name] = {
+            value: new_locale,
+            expires: 1.year.from_now
+          }
+        end
       end
 
       def definerails__get_user_locale
