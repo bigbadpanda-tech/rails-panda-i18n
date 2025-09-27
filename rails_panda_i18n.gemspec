@@ -1,15 +1,15 @@
 $LOAD_PATH.push File.expand_path("lib", __dir__)
 
-require "definerails_i18n/version"
+require "rails_panda_i18n/version"
 
 Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.2"
 
-  s.name = "definerails_i18n"
-  s.version = DefineRails::Internationalization::VERSION
-  s.authors = ["DefineScope"]
-  s.email = ["info@definescope.com"]
-  s.homepage = "https://www.definescope.com"
+  s.name = "rails-panda-i18n"
+  s.version = RailsPanda::Internationalization::VERSION
+  s.authors = ["João Saraiva"]
+  s.email = ["panda@bigbadpanda.com"]
+  s.homepage = "https://github.com/jsaraiva/rails-panda-i18n"
   s.summary = "Code that Rails applications use for dealing with internationalization (i18n)."
   s.description = "Code that Rails applications use for dealing with internationalization (i18n)."
   s.license = "MIT"

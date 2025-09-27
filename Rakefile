@@ -9,7 +9,7 @@ require "rdoc/task"
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = "rdoc"
-  rdoc.title = "DefineRails::I18n"
+  rdoc.title = "RailsPanda::I18n"
   rdoc.options << "--line-numbers"
   rdoc.rdoc_files.include("README.rdoc")
   rdoc.rdoc_files.include("lib/**/*.rb")

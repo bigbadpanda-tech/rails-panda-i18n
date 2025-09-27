@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    definerails_i18n (1.0.5)
+    rails_panda_i18n (1.0.5)
       http_accept_language
       rails
 
@@ -332,7 +332,7 @@ PLATFORMS
 
 DEPENDENCIES
   danger
-  definerails_i18n!
+  rails_panda_i18n!
   diffy
   equivalent-xml
   mocha

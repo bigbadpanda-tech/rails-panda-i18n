@@ -1,11 +1,11 @@
-module DefineRails
+module RailsPanda
   module Internationalization
     extend ActiveSupport::Concern
 
     require "http_accept_language"
 
     module ClassMethods
-      def use_definerails_i18n(options = {})
+      def use_rails_panda_i18n(options = {})
         options = {
           setup_default_url_options: true,
           setup_class_default_url_options: true,
@@ -28,23 +28,21 @@ module DefineRails
           mattr_accessor :ui_language_param_name
           self.ui_language_param_name = options[:param_name].to_sym
 
-          if options[:setup_default_url_options] &&
-              options[:setup_class_default_url_options]
-            include DefineRails::Internationalization::MethodClassDefaultUrlOptions
+          if options[:setup_default_url_options] && options[:setup_class_default_url_options]
+            include RailsPanda::Internationalization::MethodClassDefaultUrlOptions
           end
 
-          if options[:setup_default_url_options] &&
-              options[:setup_instance_default_url_options]
-            include DefineRails::Internationalization::MethodInstanceDefaultUrlOptions
+          if options[:setup_default_url_options] && options[:setup_instance_default_url_options]
+            include RailsPanda::Internationalization::MethodInstanceDefaultUrlOptions
           end
 
         else
           mattr_reader :ui_language_param_name
         end
 
-        before_action :definerails__set_locale if options[:setup_locale_on_before_action]
+        before_action :rails_panda__set_locale if options[:setup_locale_on_before_action]
 
-        include DefineRails::Internationalization::Methods
+        include RailsPanda::Internationalization::Methods
       end
     end
 
@@ -53,7 +51,7 @@ module DefineRails
 
       module ClassMethods
         def default_url_options(options = {})
-          definerails__add_ui_language_to options
+          rails_panda__add_ui_language_to options
         end
       end
     end
@@ -62,7 +60,7 @@ module DefineRails
       extend ActiveSupport::Concern
 
       def default_url_options(options = {})
-        definerails__add_ui_language_to options
+        rails_panda__add_ui_language_to options
       end
     end
 
@@ -70,17 +68,17 @@ module DefineRails
       extend ActiveSupport::Concern
 
       module ClassMethods
-        def definerails__add_ui_language_to(options = {})
+        def rails_panda__add_ui_language_to(options = {})
           options.merge(ui_language_param_name => I18n.locale) unless ui_language_param_name.nil?
         end
       end
 
-      def definerails__add_ui_language_to(options = {})
+      def rails_panda__add_ui_language_to(options = {})
         options.merge(ui_language_param_name => I18n.locale) unless ui_language_param_name.nil?
       end
 
-      def definerails__set_locale
-        new_locale = definerails__get_user_locale || I18n.default_locale
+      def rails_panda__set_locale
+        new_locale = rails_panda__get_user_locale || I18n.default_locale
 
         I18n.locale = new_locale
 
@@ -92,7 +90,7 @@ module DefineRails
         end
       end
 
-      def definerails__get_user_locale
+      def rails_panda__get_user_locale
         available_langs = I18n.available_locales
 
         cookie_lang = cookies[ui_language_cookie_name] unless ui_language_cookie_name.nil?
@@ -110,4 +108,4 @@ module DefineRails
   end
 end
 
-ActiveSupport.on_load(:action_controller) { include DefineRails::Internationalization }
+ActiveSupport.on_load(:action_controller) { include RailsPanda::Internationalization }

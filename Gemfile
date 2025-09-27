@@ -5,14 +5,11 @@ gemspec path: __dir__
 group :development do
   gem "standard"
   gem "standard-rails"
+  gem "rubocop-rspec"
 end
 
 group :test do
-  gem "diffy"
-  gem "equivalent-xml"
-  gem "mocha"
 end
 
 group :ci do
-  gem "danger"
 end
