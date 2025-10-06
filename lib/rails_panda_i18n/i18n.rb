@@ -1,5 +1,10 @@
+# frozen_string_literal: true
+
+require "active_support"
+require "active_support/concern"
+
 module RailsPanda
-  module Internationalization
+  module I18n
     extend ActiveSupport::Concern
 
     require "http_accept_language"
@@ -29,11 +34,11 @@ module RailsPanda
           self.ui_language_param_name = options[:param_name].to_sym
 
           if options[:setup_default_url_options] && options[:setup_class_default_url_options]
-            include RailsPanda::Internationalization::MethodClassDefaultUrlOptions
+            include RailsPanda::I18n::MethodClassDefaultUrlOptions
           end
 
           if options[:setup_default_url_options] && options[:setup_instance_default_url_options]
-            include RailsPanda::Internationalization::MethodInstanceDefaultUrlOptions
+            include RailsPanda::I18n::MethodInstanceDefaultUrlOptions
           end
 
         else
@@ -42,7 +47,7 @@ module RailsPanda
 
         before_action :rails_panda__set_locale if options[:setup_locale_on_before_action]
 
-        include RailsPanda::Internationalization::Methods
+        include RailsPanda::I18n::Methods
       end
     end
 
@@ -108,4 +113,4 @@ module RailsPanda
   end
 end
 
-ActiveSupport.on_load(:action_controller) { include RailsPanda::Internationalization }
+ActiveSupport.on_load(:action_controller) { include RailsPanda::I18n }

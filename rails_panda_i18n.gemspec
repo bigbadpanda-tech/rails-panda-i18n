@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.2"
 
   s.name = "rails-panda-i18n"
-  s.version = RailsPanda::Internationalization::VERSION
+  s.version = RailsPanda::I18n::VERSION
   s.authors = ["João Saraiva"]
   s.email = ["panda@bigbadpanda.com"]
   s.homepage = "https://github.com/jsaraiva/rails-panda-i18n"

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module RailsPanda
-  module Internationalization
-    VERSION = "1.0.5"
+  module I18n
+    VERSION = "1.0.6"
   end
 end
