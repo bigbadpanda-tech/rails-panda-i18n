@@ -2,25 +2,43 @@ $LOAD_PATH.push File.expand_path("lib", __dir__)
 
 require "rails_panda_i18n/version"
 
-Gem::Specification.new do |s|
-  s.required_ruby_version = ">= 3.2"
+Gem::Specification.new do |spec|
+  spec.required_ruby_version = ">= 3.2"
 
-  s.name = "rails-panda-i18n"
-  s.version = RailsPanda::I18n::VERSION
-  s.authors = ["João Saraiva"]
-  s.email = ["panda@bigbadpanda.com"]
-  s.homepage = "https://github.com/jsaraiva/rails-panda-i18n"
-  s.summary = "Code that Rails applications use for dealing with internationalization (i18n)."
-  s.description = "Code that Rails applications use for dealing with internationalization (i18n)."
-  s.license = "MIT"
+  spec.name = "rails-panda-i18n"
+  spec.version = RailsPanda::I18n::VERSION
+  spec.authors = ["João Saraiva"]
+  spec.email = ["panda@bigbadpanda.com"]
+  spec.homepage = "https://github.com/bigbadpanda-tech/rails-panda-i18n"
+  spec.summary = "Code that Rails applications use for dealing with internationalization (i18n)."
+  spec.description = "Code that Rails applications use for dealing with internationalization (i18n)."
+  spec.license = "MIT"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile"]
-  # s.test_files = Dir["test/**/*"]
+  spec.files = Dir[
+    "lib/**/*",
+    "rails_panda_i18n.gemspec",
+    "Gemfile",
+    # "Rakefile",
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md"
+  ]
 
-  s.add_dependency "rails" # , ">= 5.1.2"
+  spec.add_dependency "rails", ">= 7.0.0"
+  spec.add_dependency "http_accept_language" # Get the HTTP ACCEPT-LANGUAGE header
 
-  # Get the HTTP ACCEPT-LANGUAGE header
-  s.add_dependency "http_accept_language"
-
-  s.metadata["rubygems_mfa_required"] = "true"
+  # spec.add_development_dependency "combustion"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "rubocop-rails"
+  spec.add_development_dependency "rubocop-rspec"
+  spec.add_development_dependency "rubocop-rspec_rails"
+  spec.add_development_dependency "rubocop-rake"
+  spec.add_development_dependency "rubocop-performance"
+  spec.add_development_dependency "standard"
+  spec.add_development_dependency "standard-rails"
 end

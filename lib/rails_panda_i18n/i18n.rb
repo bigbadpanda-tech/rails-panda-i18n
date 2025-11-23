@@ -74,18 +74,22 @@ module RailsPanda
 
       module ClassMethods
         def rails_panda__add_ui_language_to(options = {})
-          options.merge(ui_language_param_name => I18n.locale) unless ui_language_param_name.nil?
+          options.dup.tap do |o|
+            o[ui_language_param_name] = ::I18n.locale unless ui_language_param_name.nil?
+          end
         end
       end
 
       def rails_panda__add_ui_language_to(options = {})
-        options.merge(ui_language_param_name => I18n.locale) unless ui_language_param_name.nil?
+        options.dup.tap do |o|
+          o[ui_language_param_name] = ::I18n.locale unless ui_language_param_name.nil?
+        end
       end
 
       def rails_panda__set_locale
-        new_locale = rails_panda__get_user_locale || I18n.default_locale
+        new_locale = rails_panda__get_user_locale || ::I18n.default_locale
 
-        I18n.locale = new_locale
+        ::I18n.locale = new_locale
 
         unless ui_language_cookie_name.nil?
           cookies[ui_language_cookie_name] = {
@@ -96,17 +100,18 @@ module RailsPanda
       end
 
       def rails_panda__get_user_locale
-        available_langs = I18n.available_locales
+        available_langs = ::I18n.available_locales
 
         cookie_lang = cookies[ui_language_cookie_name] unless ui_language_cookie_name.nil?
         params_lang = params[ui_language_param_name] unless ui_language_param_name.nil?
 
         if params_lang.present? && available_langs.include?(params_lang.to_sym)
-          params_lang
+          params_lang.to_sym
         elsif cookie_lang.present? && available_langs.include?(cookie_lang.to_sym)
-          cookie_lang
+          cookie_lang.to_sym
         else
-          http_accept_language.compatible_language_from available_langs
+          result = http_accept_language.compatible_language_from available_langs
+          result.is_a?(String) ? result.to_sym : result
         end
       end
     end

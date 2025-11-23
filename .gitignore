@@ -6,3 +6,13 @@ log/*
 !log/.keep
 tmp/*
 !tmp/.keep
+
+*.gem
+coverage/*
+measurement/*
+pkg/*
+
+.env
+
+spec/dummy/tmp/*
+spec/dummy/log/*.log
